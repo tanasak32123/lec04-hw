@@ -1,0 +1,18 @@
+<h1>กรอกข้อมูล</h1>
+<%= form_with url: "/main/calculate", method: :post, data: {turbo: false} do |form| %>
+    <%= hidden_field_tag(:subjN, @subjN) %>
+    <% @subjN.to_i.times { |i| %>
+        <label for="subject[name]">ชื่อวิชาที่ <%= i+1 %>: </label>
+        <input type="text" name="subject[name][]" value=
+        "<% if i < @name.length %><%= @name[i] %><% end %>">
+        <label for="subject[score]">คะแนนที่ได้: </label>
+        <input type="number" name="subject[score][]" min="0" max="100" value=
+        "<% if i < @score.length %><%= @score[i] %><% end %>">
+        <% if @index < @blank.length && @blank[@index].to_i == i %>
+            <small style="color:red;">** คุณยังใส่ข้อมูลไม่ครบในบรรทัดนี้</small>
+            <% @index += 1 %>
+        <% end %>
+        <br><br>
+    <% } %>
+    <%= form.submit "ตกลง" %>
+<% end %>
